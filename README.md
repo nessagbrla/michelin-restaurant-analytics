@@ -103,3 +103,25 @@ This page provides a high-level view of Michelin's global restaurant landscape, 
 This page explores restaurant characteristics in greater detail, including leading cuisines, star concentration by cuisine, Michelin award composition across price tiers, and Green Star recognition.
 
 ![Cuisine & Restaurant Insights](images/cuisine_restaurant_insights.png)
+
+## Key Insights
+
+- **France has the largest Michelin presence** in the dataset with 3,049 restaurants, followed by Italy with 2,000 and the United States with 1,838.
+- **Japan stands out for Michelin-star concentration among major markets:** 359 of its 1,113 restaurants are starred, representing approximately 32.3%.
+- **Tokyo is the largest city-level Michelin market** in the dataset with 545 restaurants, while Paris follows with 451 and London with 375.
+- **Creative cuisine shows a particularly high concentration of starred restaurants:** 691 of 1,061 restaurants, or approximately 65.1%, are Michelin-starred.
+- **Higher price tiers contain a larger share of starred restaurants in this dataset.** This represents an observed association rather than evidence that higher prices cause Michelin recognition.
+- **Green Star recognition remains relatively uncommon**, with 577 restaurants representing approximately 2.94% of the 19,622 restaurants analyzed.
+
+## Dataset Summary
+
+| Metric | Value |
+|---|---:|
+| Restaurants | 19,622 |
+| Countries | 52 |
+| Cities | 6,113 |
+| Cuisine Categories | 267 |
+| Starred Restaurants | 3,890 |
+| Three-Star Restaurants | 162 |
+| Green Star Restaurants | 577 |
+| Green Star Share | 2.94% |
