@@ -23,3 +23,67 @@ This project was built to answer questions such as:
 - **Python / PySpark** — data processing and exploratory analysis
 - **Power BI** — semantic modeling, DAX measures, and interactive dashboards
 - **GitHub** — project documentation and version control
+
+## Data Architecture
+
+The project follows a medallion-style architecture to separate raw ingestion, data cleaning, validation, and analytics-ready data.
+
+```text
+Public Michelin Restaurant Data
+              │
+              ▼
+         Databricks
+              │
+              ▼
+      Bronze Layer
+       Raw ingestion
+              │
+              ▼
+      Silver Layer
+ Cleaning & standardization
+              │
+              ▼
+     Data Quality Gate
+ Validation & reconciliation
+              │
+              ▼
+       Gold Layer
+ Analytics-ready dataset
+              │
+              ▼
+      SQL + PySpark
+              │
+              ▼
+         Power BI
+              │
+              ▼
+ Interactive Analytics Dashboard
+```
+
+### Bronze Layer
+
+The raw dataset was ingested into Databricks with **19,622 restaurant records and 14 source fields**. The Bronze layer preserves the original data for traceability.
+
+### Silver Layer
+
+The Silver layer cleans and standardizes the raw data. Key transformations include:
+
+- Created a deterministic SHA-256 `restaurant_id` from restaurant and location attributes.
+- Standardized restaurant, address, location, and cuisine fields.
+- Converted international price symbols into a consistent 1–4 `price_tier`.
+- Derived `star_count`, `is_starred`, and `is_green_star`.
+- Preserved the original price field for traceability.
+
+### Data Quality Gate
+
+Validation checks were performed before promoting the data to the Gold layer:
+
+- Reconciled Bronze and Silver row counts.
+- Verified **19,622 unique and non-null restaurant IDs**.
+- Checked required fields and coordinate validity.
+- Validated price tiers and Michelin star counts.
+- Confirmed consistency between star count and starred status.
+
+### Gold Layer
+
+The Gold layer contains the analytics-ready restaurant dataset used by Power BI. It includes standardized geography, cuisine, price tier, Michelin award, star status, Green Star status, and geographic coordinates.
