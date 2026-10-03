@@ -87,3 +87,19 @@ Validation checks were performed before promoting the data to the Gold layer:
 ### Gold Layer
 
 The Gold layer contains the analytics-ready restaurant dataset used by Power BI. It includes standardized geography, cuisine, price tier, Michelin award, star status, Green Star status, and geographic coordinates.
+
+## Power BI Dashboard
+
+The analytics-ready Gold dataset was connected directly from Databricks to Power BI to build a two-page interactive dashboard. The report includes synchronized filters for country, cuisine, price tier, Michelin award, and Green Star status.
+
+### Global Michelin Landscape
+
+This page provides a high-level view of Michelin's global restaurant landscape, including restaurant volume, starred restaurant concentration, geographic distribution, and differences across major markets.
+
+![Global Michelin Landscape](images/global_michelin_landscape.png)
+
+### Cuisine & Restaurant Insights
+
+This page explores restaurant characteristics in greater detail, including leading cuisines, star concentration by cuisine, Michelin award composition across price tiers, and Green Star recognition.
+
+![Cuisine & Restaurant Insights](images/cuisine_restaurant_insights.png)
