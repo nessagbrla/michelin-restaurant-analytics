@@ -2,7 +2,7 @@
 
 An end-to-end data analytics project exploring how Michelin recognition is distributed across global markets, cuisines, price segments, and restaurant categories.
 
-The project transforms 19,622 Michelin Guide restaurant records through a Bronze, Silver, and Gold data pipeline in Databricks, validates data quality using SQL and PySpark, and connects the analytics-ready dataset to Power BI for interactive reporting.
+The project transforms 19,622 Michelin Guide restaurant records through a Bronze, Silver, and Gold data pipeline in Databricks, validates data quality using SQL, and connects the analytics-ready dataset to Power BI for interactive reporting.
 
 ## Project Overview
 
@@ -18,10 +18,9 @@ This project was built to answer questions such as:
 
 ## Tech Stack
 
-- **Databricks** — data engineering, transformation, and analytics
-- **SQL** — profiling, transformation, validation, and analysis
-- **Python / PySpark** — data processing and exploratory analysis
-- **Power BI** — semantic modeling, DAX measures, and interactive dashboards
+- **Databricks** — cloud analytics platform and medallion architecture
+- **SQL** — data profiling, cleaning, transformation, quality validation, and exploratory analysis
+- **Power BI** — semantic modeling, DAX measures, data visualization, and interactive dashboards
 - **GitHub** — project documentation and version control
 
 ## Data Architecture
@@ -51,7 +50,7 @@ Public Michelin Restaurant Data
  Analytics-ready dataset
               │
               ▼
-      SQL + PySpark
+      SQL Analytics
               │
               ▼
          Power BI
