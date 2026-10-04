@@ -1,1 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Michelin Guide Global Restaurant Analytics | Vanessa Gabriela Kwok</title>
+
+  <meta
+    name="description"
+    content="An end-to-end Databricks, SQL, and Power BI analytics project exploring 19,622 Michelin Guide restaurants across global markets."
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      color: #1f2933;
+      background: #ffffff;
+      line-height: 1.6;
+    }
+
+    .container {
+      width: min(1120px, 88%);
+      margin: 0 auto;
+    }
+
+    /* HERO */
+
+    .hero {
+      padding: 90px 0 65px;
+    }
+
+    .eyebrow {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #64748b;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      max-width: 850px;
+      font-size: clamp(2.6rem, 6vw, 5.2rem);
+      line-height: 1.02;
+      letter-spacing: -0.05em;
+      color: #16283c;
+      margin-bottom: 25px;
+    }
+
+    .intro {
+      max-width: 720px;
+      font-size: 1.18rem;
+      color: #52606d;
+      margin-bottom: 30px;
+    }
+
+    .tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 42px;
+    }
+
+    .tag {
+      padding: 7px 13px;
+      background: #f1f5f9;
+      border-radius: 100px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #334e68;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .button {
+      display: inline-block;
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 650;
+      transition: 0.2s ease;
+    }
+
+    .button-primary {
+      background: #243b53;
+      color: white;
+    }
+
+    .button-primary:hover {
+      background: #102a43;
+      transform: translateY(-1px);
+    }
+
+    .button-secondary {
+      border: 1px solid #cbd5e1;
+      color: #243b53;
+    }
+
+    .button-secondary:hover {
+      background: #f8fafc;
+    }
+
+    /* METRICS */
+
+    .metrics {
+      border-top: 1px solid #e2e8f0;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 34px 0;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
+    }
+
+    .metric-number {
+      font-size: 2rem;
+      font-weight: 750;
+      color: #243b53;
+      letter-spacing: -0.03em;
+    }
+
+    .metric-label {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #7b8794;
+      margin-top: 2px;
+    }
+
+    /* GENERAL SECTIONS */
+
+    section {
+      padding: 75px 0;
+    }
+
+    .section-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: #7b8794;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      line-height: 1.15;
+      letter-spacing: -0.035em;
+      color: #243b53;
+      margin-bottom: 18px;
+    }
+
+    .section-copy {
+      max-width: 720px;
+      color: #52606d;
+      font-size: 1.05rem;
+      margin-bottom: 35px;
+    }
+
+    /* DASHBOARD */
+
+    .dashboard {
+      background: #f8fafc;
+    }
+
+    .dashboard-image {
+      width: 100%;
+      display: block;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 14px 40px rgba(15, 23, 42, 0.08);
+    }
+
+    .dashboard-caption {
+      margin-top: 14px;
+      color: #7b8794;
+      font-size: 0.9rem;
+    }
+
+    /* PIPELINE */
+
+    .pipeline {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+      margin-top: 38px;
+    }
+
+    .pipeline-step {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 20px 14px;
+      text-align: center;
+    }
+
+    .pipeline-step strong {
+      display: block;
+      color: #243b53;
+      margin-bottom: 4px;
+    }
+
+    .pipeline-step span {
+      color: #7b8794;
+      font-size: 0.82rem;
+    }
+
+    /* INSIGHTS */
+
+    .insights {
+      background: #243b53;
+      color: white;
+    }
+
+    .insights .section-label {
+      color: #b8c7d9;
+    }
+
+    .insights h2 {
+      color: white;
+    }
+
+    .insight-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 45px;
+      margin-top: 38px;
+    }
+
+    .insight-number {
+      font-size: 2.7rem;
+      font-weight: 750;
+      letter-spacing: -0.04em;
+      margin-bottom: 10px;
+    }
+
+    .insight-title {
+      font-weight: 650;
+      margin-bottom: 7px;
+    }
+
+    .insight-text {
+      color: #d7e1ea;
+      font-size: 0.95rem;
+    }
+
+    /* SECOND DASHBOARD */
+
+    .secondary-dashboard {
+      margin-top: 45px;
+    }
+
+    /* BUILD */
+
+    .build-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .build-item {
+      margin-bottom: 25px;
+    }
+
+    .build-item h3 {
+      color: #243b53;
+      font-size: 1.05rem;
+      margin-bottom: 5px;
+    }
+
+    .build-item p {
+      color: #52606d;
+    }
+
+    /* FOOTER */
+
+    footer {
+      border-top: 1px solid #e2e8f0;
+      padding: 45px 0 55px;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .footer-name {
+      font-weight: 700;
+      color: #243b53;
+    }
+
+    .footer-sub {
+      color: #7b8794;
+      font-size: 0.9rem;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 800px) {
+      .hero {
+        padding-top: 60px;
+      }
+
+      .metric-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .pipeline {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .insight-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .build-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .footer-content {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HERO -->
+
+  <header class="hero">
+    <div class="container">
+
+      <div class="eyebrow">Data Analytics Case Study</div>
+
+      <h1>Michelin Guide Global Restaurant Analytics</h1>
+
+      <p class="intro">
+        Turning 19,622 Michelin Guide restaurant records into an
+        analytics-ready dataset and interactive business intelligence
+        dashboard for exploring global markets, cuisines, pricing,
+        awards, and sustainability recognition.
+      </p>
+
+      <div class="tech">
+        <span class="tag">Databricks</span>
+        <span class="tag">SQL</span>
+        <span class="tag">Power BI</span>
+        <span class="tag">DAX</span>
+        <span class="tag">Data Quality</span>
+      </div>
+
+      <div class="buttons">
+        <a class="button button-primary" href="#dashboard">
+          View Dashboard
+        </a>
+
+        <a
+          class="button button-secondary"
+          href="https://github.com/nessagbrla/michelin-restaurant-analytics"
+          target="_blank"
+          rel="noopener"
+        >
+          View GitHub
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+
+  <!-- METRICS -->
+
+  <div class="metrics">
+    <div class="container metric-grid">
+
+      <div>
+        <div class="metric-number">19,622</div>
+        <div class="metric-label">Restaurants</div>
+      </div>
+
+      <div>
+        <div class="metric-number">52</div>
+        <div class="metric-label">Countries</div>
+      </div>
+
+      <div>
+        <div class="metric-number">267</div>
+        <div class="metric-label">Cuisines</div>
+      </div>
+
+      <div>
+        <div class="metric-number">3,890</div>
+        <div class="metric-label">Starred Restaurants</div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- DASHBOARD -->
+
+  <section class="dashboard" id="dashboard">
+    <div class="container">
+
+      <div class="section-label">Power BI Dashboard</div>
+
+      <h2>Global Michelin Landscape</h2>
+
+      <p class="section-copy">
+        A high-level view of Michelin restaurant volume, starred
+        restaurant concentration, geographic distribution, and
+        differences across major global markets.
+      </p>
+
+      <img
+        class="dashboard-image"
+        src="images/global_michelin_landscape.png"
+        alt="Power BI dashboard showing the global Michelin restaurant landscape"
+      >
+
+      <p class="dashboard-caption">
+        Built in Power BI using the analytics-ready Gold dataset from Databricks.
+      </p>
+
+    </div>
+  </section>
+
+
+  <!-- PIPELINE -->
+
+  <section>
+    <div class="container">
+
+      <div class="section-label">From Raw Data to Dashboard</div>
+
+      <h2>An end-to-end analytics workflow</h2>
+
+      <p class="section-copy">
+        The project uses a medallion-style architecture to separate raw
+        ingestion, transformation, quality validation, analytics modeling,
+        and business intelligence.
+      </p>
+
+      <div class="pipeline">
+
+        <div class="pipeline-step">
+          <strong>Raw</strong>
+          <span>Public data</span>
+        </div>
+
+        <div class="pipeline-step">
+          <strong>Bronze</strong>
+          <span>Ingestion</span>
+        </div>
+
+        <div class="pipeline-step">
+          <strong>Silver</strong>
+          <span>Cleaning</span>
+        </div>
+
+        <div class="pipeline-step">
+          <strong>Quality</strong>
+          <span>Validation</span>
+        </div>
+
+        <div class="pipeline-step">
+          <strong>Gold</strong>
+          <span>Analytics model</span>
+        </div>
+
+        <div class="pipeline-step">
+          <strong>Power BI</strong>
+          <span>Visualization</span>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- INSIGHTS -->
+
+  <section class="insights">
+    <div class="container">
+
+      <div class="section-label">Selected Findings</div>
+
+      <h2>What the data revealed</h2>
+
+      <div class="insight-grid">
+
+        <div>
+          <div class="insight-number">32.3%</div>
+          <div class="insight-title">Japan's starred share</div>
+          <p class="insight-text">
+            359 of 1,113 Michelin-listed restaurants in Japan are starred,
+            giving Japan one of the strongest star concentrations among
+            major markets in the dataset.
+          </p>
+        </div>
+
+        <div>
+          <div class="insight-number">65.1%</div>
+          <div class="insight-title">Creative cuisine starred</div>
+          <p class="insight-text">
+            691 of 1,061 restaurants categorized as Creative cuisine
+            hold at least one Michelin star.
+          </p>
+        </div>
+
+        <div>
+          <div class="insight-number">2.94%</div>
+          <div class="insight-title">Green Star recognition</div>
+          <p class="insight-text">
+            Only 577 of the 19,622 restaurants analyzed hold Green Star
+            recognition in the dataset.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- SECOND DASHBOARD -->
+
+  <section>
+    <div class="container">
+
+      <div class="section-label">Deeper Analysis</div>
+
+      <h2>Cuisine & Restaurant Insights</h2>
+
+      <p class="section-copy">
+        The second report page examines cuisine composition, star
+        concentration, price tiers, Michelin award mix, and Green Star
+        recognition in greater detail.
+      </p>
+
+      <img
+        class="dashboard-image secondary-dashboard"
+        src="images/cuisine_restaurant_insights.png"
+        alt="Power BI dashboard showing Michelin cuisine and restaurant insights"
+      >
+
+    </div>
+  </section>
+
+
+  <!-- HOW IT WAS BUILT -->
+
+  <section class="dashboard">
+    <div class="container">
+
+      <div class="section-label">Behind the Dashboard</div>
+
+      <h2>How I built it</h2>
+
+      <div class="build-grid">
+
+        <div>
+
+          <div class="build-item">
+            <h3>Data Engineering</h3>
+            <p>
+              Built Bronze, Silver, and Gold layers in Databricks to
+              separate raw data from standardized and analytics-ready data.
+            </p>
+          </div>
+
+          <div class="build-item">
+            <h3>Data Transformation</h3>
+            <p>
+              Standardized international price symbols, derived Michelin
+              star indicators, structured geographic fields, and created
+              a deterministic SHA-256 restaurant identifier.
+            </p>
+          </div>
+
+        </div>
+
+        <div>
+
+          <div class="build-item">
+            <h3>Data Quality</h3>
+            <p>
+              Reconciled row counts and validated unique IDs, required
+              fields, coordinates, price tiers, and Michelin star logic
+              before promoting data to the Gold layer.
+            </p>
+          </div>
+
+          <div class="build-item">
+            <h3>Business Intelligence</h3>
+            <p>
+              Connected the Gold dataset from Databricks to Power BI and
+              built DAX measures, synchronized filters, geographic
+              visualizations, and comparative market analysis.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- FOOTER -->
+
+  <footer>
+    <div class="container footer-content">
+
+      <div>
+        <div class="footer-name">Vanessa Gabriela Kwok</div>
+        <div class="footer-sub">
+          Mathematics & Statistics · Data Analytics · Business Intelligence
+        </div>
+      </div>
+
+      <a
+        class="button button-primary"
+        href="https://github.com/nessagbrla/michelin-restaurant-analytics"
+        target="_blank"
+        rel="noopener"
+      >
+        Explore Technical Project →
+      </a>
+
+    </div>
+  </footer>
+
+</body>
+</html>
