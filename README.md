@@ -124,3 +124,52 @@ This page explores restaurant characteristics in greater detail, including leadi
 | Three-Star Restaurants | 162 |
 | Green Star Restaurants | 577 |
 | Green Star Share | 2.94% |
+
+## Repository Structure
+
+```text
+michelin-restaurant-analytics/
+│
+├── notebooks/
+│   ├── 01_data_profiling.ipynb
+│   ├── 02_bronze_ingestion.ipynb
+│   ├── 03_silver_cleaning.ipynb
+│   ├── 04_data_quality.ipynb
+│   ├── 05_gold_analytics.ipynb
+│   └── 06_exploratory_analysis.ipynb
+│
+├── images/
+│   ├── global_michelin_landscape.png
+│   └── cuisine_restaurant_insights.png
+│
+└── README.md
+```
+
+The notebooks follow the project workflow from initial data profiling through ingestion, transformation, quality validation, analytics-ready modeling, and exploratory analysis.
+
+## Data Quality Considerations
+
+Several data quality considerations were identified during profiling and addressed before analysis:
+
+- Restaurant names are not unique, so a deterministic SHA-256 identifier was created using restaurant and location attributes.
+- International price symbols were standardized into a common four-level price tier.
+- Geographic coordinates were validated before being used for mapping.
+- Location strings varied in structure, requiring standardized city and country fields for geographic analysis.
+- Bronze and Silver row counts were reconciled to ensure transformations did not unintentionally add or remove records.
+- Derived Michelin star fields were validated against the original award classifications.
+
+## Limitations
+
+- The public dataset does not contain a reliable historical date or year field, so the analysis represents a snapshot rather than changes in Michelin recognition over time.
+- Geographic fields were derived from the provided location data rather than an external geocoding service.
+- Price tier represents Michelin's price classification and should not be interpreted as an exact restaurant price.
+- Relationships observed in the dashboard are descriptive and should not be interpreted as causal.
+
+## Future Improvements
+
+Potential extensions include:
+
+- Incorporating historical Michelin Guide data to analyze changes in recognition over time.
+- Adding more detailed geographic enrichment for regional and city-level analysis.
+- Automating ingestion and transformation as a scheduled Databricks workflow.
+- Expanding the Power BI semantic model with additional DAX measures and drill-through analysis.
